@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Syed Abbas — Power BI Developer | Dubai</title>
+<meta name="description" content="Syed Abbas — Microsoft Certified Power BI Developer based in Dubai. 4+ years building healthcare analytics, marketing dashboards, and ETL pipelines." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root {
+    --bg: #0C0C0C;
+    --bg-soft: #131313;
+    --surface: #181816;
+    --border: #242422;
+    --border-soft: #1c1c1a;
+    --text: #EDE8DB;
+    --text-dim: #A09A8B;
+    --muted: #6B6659;
+    --lime: #D4FF3A;
+    --amber: #F5A623;
+    --peach: #E8B4A0;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Geist', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 1000;
+    mix-blend-mode: overlay;
+  }
+
+  .ambient-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 800px 600px at 15% 10%, rgba(212, 255, 58, 0.06), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 85% 70%, rgba(245, 166, 35, 0.04), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 50% 100%, rgba(232, 180, 160, 0.03), transparent 60%);
+  }
+
+  .dot-grid {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(212, 255, 58, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse 1200px 900px at 50% 30%, black 10%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 1200px 900px at 50% 30%, black 10%, transparent 85%);
+  }
+
+  .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+  .hero-bg .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 120px 120px;
+    mask-image: radial-gradient(ellipse at center, black 10%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 10%, transparent 75%);
+    opacity: 0.5;
+  }
+
+  .hero-bg .chart-decor { position: absolute; bottom: 0; left: 0; right: 0; height: 60%; opacity: 0.25; }
+  .hero-bg .chart-decor svg { width: 100%; height: 100%; }
+
+  .hero-bg .chart-line {
+    fill: none;
+    stroke: var(--lime);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 3000;
+    animation: drawLine 4s ease-out 0.5s forwards, breatheLine 6s ease-in-out 4.5s infinite;
+    filter: drop-shadow(0 0 12px rgba(212, 255, 58, 0.5));
+  }
+
+  .hero-bg .chart-area {
+    fill: url(#areaGradient);
+    opacity: 0;
+    animation: fadeInArea 2s ease-out 2s forwards;
+  }
+
+  .hero-bg .chart-dot {
+    fill: var(--lime);
+    opacity: 0;
+    animation: dotPop 0.4s ease-out forwards, dotPulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px var(--lime));
+  }
+
+  @keyframes drawLine { to { stroke-dashoffset: 0; } }
+  @keyframes breatheLine { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+  @keyframes fadeInArea { to { opacity: 1; } }
+  @keyframes dotPop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.8); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes dotPulse { 0%, 100% { r: 3; } 50% { r: 4.5; } }
+
+  .hero-bg .particles { position: absolute; inset: 0; pointer-events: none; }
+
+  .hero-bg .particle {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--lime);
+    opacity: 0;
+    animation: floatUp 12s linear infinite;
+    white-space: nowrap;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-20vh); opacity: 0; }
+  }
+
+  .hero-brackets { position: absolute; inset: 100px 24px 24px; pointer-events: none; z-index: 1; }
+
+  .hero-brackets::before, .hero-brackets::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--lime);
+    opacity: 0.6;
+  }
+
+  .hero-brackets::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+  .hero-brackets::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+  .hero-bg .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 255, 58, 0.4), transparent);
+    top: 0;
+    animation: scanDown 8s linear infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes scanDown { 0% { top: 0%; } 100% { top: 100%; } }
+
+  .coord-marker {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .coord-tl { top: 110px; left: 48px; }
+  .coord-br { bottom: 30px; right: 48px; }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    background: rgba(12, 12, 12, 0.7);
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--lime);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--lime);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    font-family: var(--mono);
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--lime);
+    color: var(--bg);
+    padding: 10px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: transform 0.2s;
+  }
+
+  .nav-cta:hover { transform: translateY(-2px); }
+
+  .hero {
+    min-height: 100vh;
+    padding: 140px 48px 80px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--lime);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+  }
+
+  .hero-tag::before { content: ''; width: 30px; height: 1px; background: var(--lime); }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(60px, 11vw, 180px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.1s forwards;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--text-dim); }
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 60px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.3s forwards;
+  }
+
+  .hero-desc {
+    font-size: 18px;
+    max-width: 540px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .hero-desc strong { color: var(--text); font-weight: 500; }
+  .hero-stats { display: flex; flex-direction: column; gap: 20px; }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 13px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .stat-row span:first-child { color: var(--muted); }
+  .stat-row span:last-child { color: var(--lime); }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  section { padding: 120px 48px; position: relative; }
+
+  section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--border-soft) 1px, transparent 1px);
+    background-size: 100% 160px;
+    opacity: 0.4;
+    pointer-events: none;
+    mask-image: linear-gradient(180deg, transparent, black 30%, black 70%, transparent);
+    -webkit-mask-image: linear-gradient(180deg, transparent, black 30%, black 70%, transparent);
+  }
+
+  section > * { position: relative; z-index: 1; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: counter(section, decimal-leading-zero);
+    counter-increment: section;
+    color: var(--lime);
+  }
+
+  body { counter-reset: section; }
+
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 60px;
+    max-width: 900px;
+  }
+
+  .section-title em { font-style: italic; color: var(--text-dim); }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+
+  .about-text p {
+    font-size: 17px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .about-text p:first-child {
+    font-size: 22px;
+    color: var(--text);
+    font-family: var(--serif);
+    font-style: italic;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px;
+    border-radius: 2px;
+    position: relative;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 16px; height: 16px;
+    border-top: 2px solid var(--lime);
+    border-left: 2px solid var(--lime);
+  }
+
+  .about-card::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 16px; height: 16px;
+    border-bottom: 2px solid var(--lime);
+    border-right: 2px solid var(--lime);
+  }
+
+  .about-card-header {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+
+  .about-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    gap: 12px;
+  }
+
+  .about-detail:last-child { border-bottom: none; }
+
+  .about-detail span:first-child {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .about-detail span:last-child { color: var(--text); text-align: right; }
+
+  .stack-section { background: var(--bg-soft); }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .stack-category {
+    background: var(--bg-soft);
+    padding: 40px 32px;
+    min-height: 280px;
+    transition: background 0.3s;
+  }
+
+  .stack-category:hover { background: var(--surface); }
+
+  .stack-category-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stack-items { list-style: none; }
+
+  .stack-items li {
+    font-family: var(--serif);
+    font-size: 22px;
+    padding: 8px 0;
+    color: var(--text);
+    transition: color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+
+  .stack-items li:hover { color: var(--lime); transform: translateX(4px); }
+
+  .stack-items li span {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+
+  .demo-section {
+    background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .demo-section::after {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(212, 255, 58, 0.08), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .demo-intro {
+    max-width: 720px;
+    font-size: 18px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+
+  .demo-intro strong { color: var(--text); font-weight: 500; }
+  .demo-intro em {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--lime);
+    font-size: 20px;
+  }
+
+  .demo-panel {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 620px;
+    position: relative;
+  }
+
+  .demo-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 16px; height: 16px;
+    border-top: 2px solid var(--lime);
+    border-left: 2px solid var(--lime);
+    z-index: 2;
+  }
+
+  .demo-panel::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 16px; height: 16px;
+    border-bottom: 2px solid var(--lime);
+    border-right: 2px solid var(--lime);
+    z-index: 2;
+  }
+
+  .demo-side {
+    background: var(--surface);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .demo-side-header {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .demo-side-header .file-label { color: var(--text); }
+
+  .demo-side-header .live-indicator {
+    color: var(--lime);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .demo-side-header .live-indicator::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--lime);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--lime);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .data-table-wrap {
+    overflow: auto;
+    max-height: 180px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: var(--bg);
+  }
+
+  .data-table-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
+  .data-table-wrap::-webkit-scrollbar-track { background: transparent; }
+  .data-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  .data-table thead { position: sticky; top: 0; background: var(--bg-soft); z-index: 1; }
+
+  .data-table th {
+    text-align: left;
+    padding: 9px 10px;
+    color: var(--lime);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 10px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .data-table td {
+    padding: 6px 10px;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border-soft);
+    white-space: nowrap;
+  }
+
+  .data-table tbody tr:hover { background: var(--bg-soft); color: var(--text); }
+
+  .query-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .query-input-wrap { display: flex; gap: 8px; }
+
+  .query-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 14px;
+    font-family: var(--sans);
+    font-size: 14px;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .query-input:focus { border-color: var(--lime); }
+
+  .query-submit {
+    background: var(--lime);
+    color: var(--bg);
+    border: none;
+    padding: 12px 18px;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 2px;
+    transition: transform 0.2s;
+  }
+
+  .query-submit:hover:not(:disabled) { transform: translateY(-2px); }
+  .query-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .demo-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .demo-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 6px 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .demo-chip:hover { border-color: var(--lime); color: var(--lime); }
+  .demo-chip.active { border-color: var(--lime); color: var(--lime); background: rgba(212, 255, 58, 0.05); }
+
+  .sql-display {
+    margin-top: auto;
+    padding: 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    min-height: 80px;
+    max-height: 140px;
+    overflow: auto;
+  }
+
+  .sql-display::-webkit-scrollbar { width: 6px; }
+  .sql-display::-webkit-scrollbar-track { background: transparent; }
+  .sql-display::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .sql-display .sql-label {
+    color: var(--lime);
+    display: block;
+    font-size: 10px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .sql-display code { color: var(--text); white-space: pre-wrap; word-break: break-word; }
+
+  .demo-result {
+    background: var(--surface);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  #resultContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+  }
+
+  .result-placeholder {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    text-align: center;
+    gap: 14px;
+  }
+
+  .result-placeholder-icon {
+    width: 56px;
+    height: 56px;
+    border: 2px dashed var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .result-placeholder-text {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .result-insight {
+    background: var(--bg);
+    border-left: 3px solid var(--lime);
+    padding: 16px 18px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .result-insight-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .result-chart-wrap {
+    flex: 1;
+    position: relative;
+    min-height: 280px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 16px;
+  }
+
+  .result-loading {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .result-loading-bars {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+    height: 32px;
+  }
+
+  .result-loading-bars span {
+    width: 5px;
+    height: 100%;
+    background: var(--lime);
+    border-radius: 1px;
+    animation: loadBars 1s ease-in-out infinite;
+  }
+
+  .result-loading-bars span:nth-child(2) { animation-delay: 0.1s; }
+  .result-loading-bars span:nth-child(3) { animation-delay: 0.2s; }
+  .result-loading-bars span:nth-child(4) { animation-delay: 0.3s; }
+  .result-loading-bars span:nth-child(5) { animation-delay: 0.4s; }
+
+  @keyframes loadBars {
+    0%, 100% { transform: scaleY(0.3); opacity: 0.5; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+
+  .project {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 40px;
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    align-items: start;
+    transition: padding 0.3s;
+  }
+
+  .project:last-child { border-bottom: 1px solid var(--border); }
+  .project:hover { padding-left: 20px; }
+
+  .project-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    padding-top: 8px;
+  }
+
+  .project-main h3 {
+    font-family: var(--serif);
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+
+  .project-company {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+
+  .project-main p {
+    color: var(--text-dim);
+    max-width: 540px;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .project-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 2px;
+  }
+
+  .project-impact { text-align: right; padding-top: 8px; }
+
+  .project-impact-num {
+    font-family: var(--serif);
+    font-size: 38px;
+    color: var(--lime);
+    line-height: 1;
+    font-weight: 400;
+  }
+
+  .project-impact-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  .mini-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 32px;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+
+  .mini-chart span {
+    width: 4px;
+    background: var(--lime);
+    opacity: 0.6;
+    border-radius: 1px;
+  }
+
+  .metrics-section {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 48px;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+
+  .metric { text-align: left; }
+
+  .metric-num {
+    font-family: var(--serif);
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 12px;
+    letter-spacing: -0.03em;
+  }
+
+  .metric-num em { color: var(--lime); font-style: normal; }
+
+  .metric-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .contact {
+    padding: 140px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(212, 255, 58, 0.08), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .contact > * { position: relative; z-index: 1; }
+
+  .contact h2 {
+    font-family: var(--serif);
+    font-size: clamp(60px, 10vw, 140px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 40px;
+  }
+
+  .contact h2 em { font-style: italic; color: var(--lime); }
+
+  .contact-email {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--lime);
+    padding-bottom: 4px;
+    transition: color 0.3s;
+  }
+
+  .contact-email:hover { color: var(--lime); }
+
+  .contact-socials {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+
+  .contact-socials a {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+  }
+
+  .contact-socials a:hover { color: var(--lime); }
+
+  footer {
+    padding: 40px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .chat-trigger {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--lime);
+    border: none;
+    cursor: pointer;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(212, 255, 58, 0.3);
+    transition: transform 0.3s;
+  }
+
+  .chat-trigger:hover { transform: scale(1.08) rotate(-5deg); }
+
+  .chat-trigger svg { width: 26px; height: 26px; color: var(--bg); }
+
+  .chat-trigger-pulse {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--lime);
+    animation: pulse-ring 2s ease-out infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+
+  .chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    width: 380px;
+    max-width: calc(100vw - 56px);
+    height: 560px;
+    max-height: calc(100vh - 140px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    z-index: 199;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+
+  .chat-window.open { display: flex; animation: chatOpen 0.3s ease forwards; }
+
+  @keyframes chatOpen {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-soft);
+  }
+
+  .chat-header-info { display: flex; align-items: center; gap: 12px; }
+
+  .chat-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .chat-header h4 {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .chat-header p {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .chat-status-dot {
+    width: 6px; height: 6px;
+    background: var(--lime);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--lime);
+  }
+
+  .chat-close {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 4px;
+    line-height: 1;
+  }
+
+  .chat-close:hover { color: var(--text); }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .chat-msg {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 85%;
+    animation: msgIn 0.3s ease;
+  }
+
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-msg.bot {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--text);
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+  }
+
+  .chat-msg.user {
+    background: var(--lime);
+    color: var(--bg);
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+    font-weight: 400;
+  }
+
+  .chat-typing {
+    display: flex;
+    gap: 4px;
+    padding: 14px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    border-bottom-left-radius: 2px;
+    align-self: flex-start;
+    width: fit-content;
+  }
+
+  .chat-typing span {
+    width: 6px; height: 6px;
+    background: var(--muted);
+    border-radius: 50%;
+    animation: typing 1.4s ease-in-out infinite;
+  }
+
+  .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  .chat-suggestions {
+    padding: 0 20px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chat-suggestion {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 6px 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .chat-suggestion:hover { border-color: var(--lime); color: var(--lime); }
+
+  .chat-followups {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 92%;
+    margin-top: -4px;
+    padding-left: 4px;
+    animation: msgIn 0.4s ease 0.1s both;
+  }
+
+  .chat-followups-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .chat-followups-label::before {
+    content: '';
+    width: 14px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .chat-followups-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .chat-followup-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 5px 10px;
+    background: rgba(212, 255, 58, 0.04);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .chat-followup-chip::before {
+    content: '↳';
+    color: var(--lime);
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .chat-followup-chip:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+    background: rgba(212, 255, 58, 0.1);
+    transform: translateX(2px);
+  }
+
+  .chat-input-wrap {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    background: var(--bg-soft);
+  }
+
+  .chat-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 20px;
+    font-family: var(--sans);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .chat-input:focus { border-color: var(--lime); }
+
+  .chat-send {
+    width: 38px; height: 38px;
+    background: var(--lime);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+
+  .chat-send:hover:not(:disabled) { transform: scale(1.05); }
+  .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .chat-send svg { width: 16px; height: 16px; color: var(--bg); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section, .hero, .metrics-section { padding-left: 20px; padding-right: 20px; }
+    .hero { padding-top: 100px; }
+    .hero-meta { grid-template-columns: 1fr; gap: 32px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .stack-grid { grid-template-columns: 1fr 1fr; }
+    .project { grid-template-columns: 1fr; gap: 16px; }
+    .project-impact { text-align: left; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .demo-panel { grid-template-columns: 1fr; min-height: auto; }
+    .demo-side, .demo-result { min-height: auto; padding: 20px; }
+    .coord-tl { top: 90px; left: 20px; font-size: 9px; }
+    .coord-br { bottom: 20px; right: 20px; font-size: 9px; }
+    .hero-brackets { inset: 80px 12px 12px; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+
+  @media (max-width: 500px) {
+    .stack-grid { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: 1fr; }
+    .chat-window { right: 12px; left: 12px; bottom: 90px; width: auto; }
+    .chat-trigger { right: 16px; bottom: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient-bg"></div>
+<div class="dot-grid"></div>
+
+<nav>
+  <div class="logo">
+    <span class="logo-dot"></span>
+    Syed Abbas.
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's talk →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg">
+    <div class="grid"></div>
+    <div class="scan-line"></div>
+    <div class="chart-decor">
+      <svg viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#D4FF3A" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#D4FF3A" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="chart-area" d="M0,320 L80,280 L160,300 L240,220 L320,240 L400,180 L480,200 L560,140 L640,170 L720,100 L800,130 L880,80 L960,110 L1040,60 L1120,90 L1200,40 L1280,70 L1360,30 L1440,50 L1440,400 L0,400 Z"/>
+        <path class="chart-line" d="M0,320 L80,280 L160,300 L240,220 L320,240 L400,180 L480,200 L560,140 L640,170 L720,100 L800,130 L880,80 L960,110 L1040,60 L1120,90 L1200,40 L1280,70 L1360,30 L1440,50"/>
+        <circle class="chart-dot" cx="240" cy="220" r="3" style="animation-delay: 2.2s, 2.2s"/>
+        <circle class="chart-dot" cx="560" cy="140" r="3" style="animation-delay: 2.8s, 2.8s"/>
+        <circle class="chart-dot" cx="880" cy="80" r="3" style="animation-delay: 3.4s, 3.4s"/>
+        <circle class="chart-dot" cx="1200" cy="40" r="3" style="animation-delay: 4.0s, 4.0s"/>
+      </svg>
+    </div>
+    <div class="particles">
+      <span class="particle" style="left: 8%; animation-delay: 0s;">CALCULATE()</span>
+      <span class="particle" style="left: 18%; animation-delay: 3s;">SELECT *</span>
+      <span class="particle" style="left: 27%; animation-delay: 6s;">HbA1c 6.2</span>
+      <span class="particle" style="left: 38%; animation-delay: 1s;">+12.4%</span>
+      <span class="particle" style="left: 52%; animation-delay: 4s;">DATEADD()</span>
+      <span class="particle" style="left: 63%; animation-delay: 7s;">RLS · ON</span>
+      <span class="particle" style="left: 74%; animation-delay: 2s;">10,240 steps</span>
+      <span class="particle" style="left: 85%; animation-delay: 5s;">FILTER()</span>
+      <span class="particle" style="left: 93%; animation-delay: 8s;">PL-300</span>
+    </div>
+  </div>
+
+  <div class="hero-brackets"></div>
+  <div class="coord-marker coord-tl">◆ 25.20°N / 55.27°E · DUBAI</div>
+  <div class="coord-marker coord-br">REV.2026 · PORTFOLIO.V2</div>
+
+  <div class="hero-tag">Available for new projects / 2026</div>
+  <h1>Turning <em>messy data</em><br>into decisions.</h1>
+
+  <div class="hero-meta">
+    <p class="hero-desc">
+      I'm <strong>Syed Abbas</strong> — a Microsoft Certified <strong>Power BI Developer</strong>
+      based in Dubai with 4+ years building healthcare analytics, marketing dashboards,
+      and ETL pipelines that turn complex data into clear business decisions.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-row"><span>ROLE</span><span>POWER BI DEV</span></div>
+      <div class="stat-row"><span>FOCUS</span><span>HEALTHCARE / MKTG</span></div>
+      <div class="stat-row"><span>STATUS</span><span>● AVAILABLE</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">Data is only useful when it's <em>understood.</em></h2>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I build things that help people stop guessing. Mostly that means Power BI dashboards,
+        DAX measures, and ETL pipelines — but really the job is taking a messy question and
+        turning it into a clear answer.
+      </p>
+      <p>
+        My background spans 4+ years across <strong style="color:var(--text)">Dentsu</strong>
+        and <strong style="color:var(--text)">Ducont Systems</strong> — building everything from
+        healthcare analytics dashboards (glucose trends, HbA1c, patient engagement) to digital
+        marketing performance suites integrating Datorama and multiple ad platforms.
+      </p>
+      <p>
+        I'm Microsoft Certified in both <strong style="color:var(--text)">Power BI (PL-300)</strong>
+        and <strong style="color:var(--text)">Azure Data Fundamentals (DP-900)</strong>. When I'm
+        not building dashboards, I'm tuning DAX, designing star schemas, automating reporting
+        workflows with Power Automate, or implementing Row-Level Security to keep sensitive data
+        in the right hands.
+      </p>
+    </div>
+
+    <div class="about-card">
+      <div class="about-card-header">
+        <span>// PROFILE.JSON</span>
+        <span>v2.6</span>
+      </div>
+      <div class="about-detail"><span>Based in</span><span>Dubai, UAE</span></div>
+      <div class="about-detail"><span>Experience</span><span>4+ years</span></div>
+      <div class="about-detail"><span>Specialty</span><span>Power BI / DAX</span></div>
+      <div class="about-detail"><span>Domains</span><span>Healthcare, Marketing</span></div>
+      <div class="about-detail"><span>Certifications</span><span>PL-300 / DP-900</span></div>
+      <div class="about-detail"><span>Education</span><span>BSc Mathematics</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="stack" class="stack-section">
+  <div class="section-label">Stack</div>
+  <h2 class="section-title">Tools I <em>reach for.</em></h2>
+
+  <div class="stack-grid">
+    <div class="stack-category">
+      <div class="stack-category-title">Visualization</div>
+      <ul class="stack-items">
+        <li>Power BI <span>↗</span></li>
+        <li>Paginated Reports</li>
+        <li>Power BI Service</li>
+        <li>Excel</li>
+      </ul>
+    </div>
+    <div class="stack-category">
+      <div class="stack-category-title">Data Sources</div>
+      <ul class="stack-items">
+        <li>MySQL</li>
+        <li>Azure</li>
+        <li>SharePoint</li>
+        <li>Datorama</li>
+      </ul>
+    </div>
+    <div class="stack-category">
+      <div class="stack-category-title">Languages</div>
+      <ul class="stack-items">
+        <li>SQL</li>
+        <li>DAX</li>
+        <li>M / Power Query</li>
+        <li>Pivot / VBA</li>
+      </ul>
+    </div>
+    <div class="stack-category">
+      <div class="stack-category-title">Workflow</div>
+      <ul class="stack-items">
+        <li>Power Automate</li>
+        <li>ETL Pipelines</li>
+        <li>Star Schema</li>
+        <li>RLS · Security</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="metrics-section">
+  <div class="metrics-grid">
+    <div class="metric">
+      <div class="metric-num"><em>4</em>+yr</div>
+      <div class="metric-label">Power BI Experience</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num"><em>2</em>x</div>
+      <div class="metric-label">Microsoft Certified</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num"><em>3</em>+</div>
+      <div class="metric-label">Domain Verticals</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num"><em>15</em>+</div>
+      <div class="metric-label">Production Dashboards</div>
+    </div>
+  </div>
+</section>
+
+<section id="demo" class="demo-section">
+  <div class="section-label">Live Demo</div>
+  <h2 class="section-title">Ask my data <em>anything.</em></h2>
+
+  <p class="demo-intro">
+    Most portfolios <em>tell</em> you they can build dashboards. This one <strong>is</strong> one.
+    Below is 150 rows of sample <strong>user activity and biomarker data</strong> — daily steps, calories,
+    sleep hours, and glucose readings across 30 users. The kind of healthcare data I work with at Ducont.
+    Pick a question and watch the SQL, the insight, and the chart render <strong>live</strong> in your browser.
+  </p>
+
+  <div class="demo-panel">
+    <div class="demo-side">
+      <div class="demo-side-header">
+        <span class="file-label">◆ user_biometrics.csv · 150 rows</span>
+        <span class="live-indicator">Live</span>
+      </div>
+
+      <div class="data-table-wrap">
+        <table class="data-table" id="dataTable"></table>
+      </div>
+
+      <div class="query-label">Pick a question</div>
+      <div class="query-input-wrap">
+        <input type="text" class="query-input" id="demoInput" placeholder="Click a chip below to try a query" autocomplete="off" readonly />
+        <button class="query-submit" id="demoSubmit">Run →</button>
+      </div>
+
+      <div class="demo-chips">
+        <button class="demo-chip" data-type="age_steps">Steps by age group</button>
+        <button class="demo-chip" data-type="glucose_trend">Glucose trend</button>
+        <button class="demo-chip" data-type="glucose_ranges">Glucose ranges</button>
+        <button class="demo-chip" data-type="top_users">Top active users</button>
+        <button class="demo-chip" data-type="sleep_age">Sleep by age</button>
+      </div>
+
+      <div class="sql-display">
+        <span class="sql-label">-- Generated SQL</span>
+        <code id="sqlOutput">-- Click a question above to see the SQL that would generate the chart.</code>
+      </div>
+    </div>
+
+    <div class="demo-result">
+      <div class="demo-side-header">
+        <span class="file-label">▲ VISUALIZATION</span>
+        <span id="chartStatus" class="live-indicator" style="display: none;">Rendered</span>
+      </div>
+
+      <div id="resultContent">
+        <div class="result-placeholder">
+          <div class="result-placeholder-icon">📊</div>
+          <div class="result-placeholder-text">Click a question to see results</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-label">Selected Work</div>
+  <h2 class="section-title">Projects that <em>moved the needle.</em></h2>
+
+  <div class="projects-list">
+    <div class="project">
+      <div class="project-num">001</div>
+      <div class="project-main">
+        <div class="project-company">Ducont Systems · 2024–Present</div>
+        <h3>Healthcare Analytics Suite</h3>
+        <p>
+          Designed and shipped enterprise Power BI dashboards analyzing glucose levels,
+          HbA1c trends, and patient engagement metrics. Implemented Row-Level Security
+          to control data visibility based on user roles, plus paginated reports for
+          detailed clinical analytics and printable operational reports.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Power BI</span>
+          <span class="project-tag">DAX</span>
+          <span class="project-tag">MySQL</span>
+          <span class="project-tag">RLS</span>
+          <span class="project-tag">Healthcare</span>
+        </div>
+      </div>
+      <div class="project-impact">
+        <div class="project-impact-num">RLS</div>
+        <div class="project-impact-label">Secure Access</div>
+        <div class="mini-chart">
+          <span style="height: 25%"></span><span style="height: 45%"></span>
+          <span style="height: 35%"></span><span style="height: 65%"></span>
+          <span style="height: 80%"></span><span style="height: 95%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-num">002</div>
+      <div class="project-main">
+        <div class="project-company">Ducont Systems · 2024–Present</div>
+        <h3>User Activity & Engagement Platform</h3>
+        <p>
+          Built dynamic Power BI dashboards tracking user activity metrics — steps,
+          calories, and engagement trends — with optimized refresh schedules. Also
+          designed and implemented a data pipeline integrating Google Play Console
+          data into the same reporting layer for app performance analytics.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Power BI</span>
+          <span class="project-tag">SQL</span>
+          <span class="project-tag">ETL</span>
+          <span class="project-tag">Google Play API</span>
+          <span class="project-tag">Mobile Analytics</span>
+        </div>
+      </div>
+      <div class="project-impact">
+        <div class="project-impact-num">Live</div>
+        <div class="project-impact-label">Activity Sync</div>
+        <div class="mini-chart">
+          <span style="height: 40%"></span><span style="height: 55%"></span>
+          <span style="height: 70%"></span><span style="height: 50%"></span>
+          <span style="height: 85%"></span><span style="height: 100%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-num">003</div>
+      <div class="project-main">
+        <div class="project-company">Dentsu · 2021–2024</div>
+        <h3>Digital Marketing Performance Suite</h3>
+        <p>
+          Built digital marketing dashboards integrating Datorama and multiple ad platforms
+          to analyze campaign performance and engagement metrics. Engineered advanced DAX
+          measures using CALCULATE, FILTER, ALL, DATEADD, and DATEDIFF to deliver
+          time-intelligence comparisons across campaigns and channels.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Power BI</span>
+          <span class="project-tag">Datorama</span>
+          <span class="project-tag">DAX</span>
+          <span class="project-tag">Marketing</span>
+        </div>
+      </div>
+      <div class="project-impact">
+        <div class="project-impact-num">Multi</div>
+        <div class="project-impact-label">Source Unified</div>
+        <div class="mini-chart">
+          <span style="height: 60%"></span><span style="height: 30%"></span>
+          <span style="height: 75%"></span><span style="height: 50%"></span>
+          <span style="height: 90%"></span><span style="height: 70%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-num">004</div>
+      <div class="project-main">
+        <div class="project-company">Dentsu · 2021–2024</div>
+        <h3>IQA Operations & Reporting Dashboard</h3>
+        <p>
+          Developed interactive Power BI dashboards monitoring Internal Quality Assessment
+          (IQA) and operational KPIs — including claim resolution time and recall percentage.
+          Automated reporting workflows using Power Automate to cut manual reporting effort,
+          with paginated reports for detailed performance analysis.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Power BI</span>
+          <span class="project-tag">Power Automate</span>
+          <span class="project-tag">DAX</span>
+          <span class="project-tag">SharePoint</span>
+        </div>
+      </div>
+      <div class="project-impact">
+        <div class="project-impact-num">Auto</div>
+        <div class="project-impact-label">Workflow Triggers</div>
+        <div class="mini-chart">
+          <span style="height: 80%"></span><span style="height: 65%"></span>
+          <span style="height: 50%"></span><span style="height: 35%"></span>
+          <span style="height: 25%"></span><span style="height: 15%"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="section-label" style="justify-content: center;">Contact</div>
+  <h2>Let's build<br>something <em>clear.</em></h2>
+  <a href="mailto:syedabbas98.bi@gmail.com" class="contact-email">syedabbas98.bi@gmail.com</a>
+  <div class="contact-socials">
+    <a href="https://www.linkedin.com/in/syed-abbas-7013ba227/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://wa.me/971522701133" target="_blank" rel="noopener">WhatsApp ↗</a>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 Syed Abbas — All rights reserved</div>
+  <div>Power BI Developer · Dubai, UAE · 04.2026</div>
+</footer>
+
+<button class="chat-trigger" id="chatTrigger" aria-label="Open chat">
+  <span class="chat-trigger-pulse"></span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">A</div>
+      <div>
+        <h4>Ask about Syed Abbas</h4>
+        <p><span class="chat-status-dot"></span> Portfolio Assistant · Online</p>
+      </div>
+    </div>
+    <button class="chat-close" id="chatClose" aria-label="Close">×</button>
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">
+      Hi 👋 I'm Syed Abbas's portfolio assistant. Ask about his Power BI experience, healthcare or marketing projects, certifications, or availability — or tap a quick question below.
+    </div>
+  </div>
+
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="chat-suggestion" data-q="What's your Power BI experience?">Power BI experience</button>
+    <button class="chat-suggestion" data-q="Tell me about your best project">Best project</button>
+    <button class="chat-suggestion" data-q="Are you available for hire?">Availability</button>
+    <button class="chat-suggestion" data-q="What certifications do you have?">Certifications</button>
+    <button class="chat-suggestion" data-q="How can I contact you?">Contact</button>
+  </div>
+
+  <div class="chat-input-wrap">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything..." autocomplete="off" />
+    <button class="chat-send" id="chatSend" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  /* ========================================================
+     CHATBOT - Pure JavaScript, no external API calls
+     Knowledge base built from Syed Abbas's actual resume
+     ======================================================== */
+
+  const trigger = document.getElementById('chatTrigger');
+  const chatWindow = document.getElementById('chatWindow');
+  const chatClose = document.getElementById('chatClose');
+  const chatMessages = document.getElementById('chatMessages');
+  const chatInput = document.getElementById('chatInput');
+  const chatSend = document.getElementById('chatSend');
+  const suggestions = document.getElementById('chatSuggestions');
+
+  const KNOWLEDGE = [
+    { topic: 'powerbi', keywords: ['power bi', 'powerbi', 'pbi'],
+      answer: "Power BI is my primary tool — 4+ years of hands-on experience building enterprise dashboards, semantic models, and paginated reports. I'm Microsoft Certified PL-300 (Power BI Data Analyst Associate)." },
+    { topic: 'dax', keywords: ['dax', 'measure', 'calculate'],
+      answer: "DAX is where I spend a lot of my time. I write complex measures using CALCULATE, FILTER, ALL, DATEADD, and DATEDIFF — particularly for time-intelligence comparisons, marketing KPIs, and clinical trend analysis." },
+    { topic: 'sql', keywords: ['sql', 'mysql', 'query', 'database'],
+      answer: "SQL is my daily driver alongside Power BI — primarily MySQL. I write complex queries for data extraction, transformation, and loading into reporting datasets. ETL is a core part of my workflow." },
+    { topic: 'etl', keywords: ['etl', 'pipeline', 'integration', 'data integration'],
+      answer: "I design and maintain end-to-end ETL pipelines. A recent example: I built a pipeline integrating Google Play Console data into Power BI for app performance analytics — automated extraction, transformation, and visualization in one flow." },
+    { topic: 'healthcare', keywords: ['healthcare', 'health', 'clinical', 'medical', 'glucose', 'hba1c', 'patient'],
+      answer: "At Ducont Systems I've built healthcare analytics dashboards covering glucose levels, HbA1c trends, and patient engagement metrics — with Row-Level Security for role-based clinical data access. It's my current primary domain." },
+    { topic: 'marketing', keywords: ['marketing', 'campaign', 'digital marketing', 'advertising', 'ads'],
+      answer: "At Dentsu I built digital marketing dashboards integrating Datorama and multiple ad platforms to analyze campaign performance and engagement metrics. Heavy DAX usage for time-intelligence and channel comparisons." },
+    { topic: 'marketing', keywords: ['datorama'],
+      answer: "Yes — I've worked extensively with Datorama at Dentsu, integrating it into Power BI for unified marketing analytics across campaigns, platforms, and channels." },
+    { topic: 'ducont', keywords: ['ducont', 'current job', 'current role'],
+      answer: "I'm currently a BI Developer at Ducont Systems (since April 2024) — focused on healthcare analytics, user engagement dashboards, and ETL pipelines for app performance data." },
+    { topic: 'dentsu', keywords: ['dentsu', 'previous'],
+      answer: "I spent 3 years (Apr 2021 – Apr 2024) at Dentsu as a Senior Business Analyst — Power BI, building marketing dashboards, IQA reports, and automating reporting workflows with Power Automate." },
+    { topic: 'iqa', keywords: ['iqa', 'quality assessment', 'quality'],
+      answer: "At Dentsu I developed Power BI dashboards monitoring Internal Quality Assessment (IQA) and operational KPIs — including claim resolution time and recall percentage — with automated reporting via Power Automate." },
+    { topic: 'etl', keywords: ['power automate', 'automation', 'workflow'],
+      answer: "I use Power Automate to remove manual work from reporting cycles — triggers, scheduled flows, and approvals. Cut significant time off Dentsu's reporting workflows during my time there." },
+    { topic: 'mobile', keywords: ['google play', 'mobile', 'app analytics', 'app performance'],
+      answer: "I built a data pipeline that pulls Google Play Console data into Power BI dashboards for app performance analytics — installs, ratings, crashes, and engagement — surfaced alongside in-app activity metrics." },
+    { topic: 'activity', keywords: ['user activity', 'engagement', 'steps', 'calories', 'fitness'],
+      answer: "I built dynamic Power BI dashboards at Ducont tracking user activity metrics — steps, calories, and engagement trends — for a wellness-focused product. Optimized for fast refresh and mobile-friendly viewing." },
+    { topic: 'rls', keywords: ['rls', 'row-level', 'row level', 'security', 'access control'],
+      answer: "Row-Level Security is something I implement on most enterprise dashboards — controlling data visibility based on user roles. Critical for healthcare data at Ducont and operational data at Dentsu." },
+    { topic: 'paginated', keywords: ['paginated', 'paginated report'],
+      answer: "I build paginated reports for detailed analytics and printable operational outputs — invoices, clinical summaries, and audit reports where pixel-perfect formatting matters." },
+    { topic: 'modeling', keywords: ['star schema', 'data model', 'modeling', 'modelling'],
+      answer: "Data modeling is foundational for me — I default to star schema designs with clear fact/dimension separation. Makes DAX easier to write and dashboards faster to render." },
+    { topic: 'azure', keywords: ['azure', 'cloud', 'dp-900'],
+      answer: "I'm Microsoft Certified DP-900 (Azure Data Fundamentals). I've used Azure for data integration and cloud-based reporting infrastructure." },
+    { topic: 'certifications', keywords: ['pl-300', 'pl300', 'power bi certification'],
+      answer: "I'm Microsoft Certified PL-300 — Power BI Data Analyst Associate. It covers data prep, modeling, visualization, and analysis end-to-end." },
+    { topic: 'certifications', keywords: ['certification', 'certified', 'cert', 'qualifications'],
+      answer: "Two Microsoft certifications: PL-300 (Power BI Data Analyst Associate) and DP-900 (Azure Data Fundamentals)." },
+    { topic: 'experience', keywords: ['experience', 'years', 'how long'],
+      answer: "4+ years as a BI developer — 3 years at Dentsu (Senior Business Analyst, Power BI) and currently at Ducont Systems as BI Developer since April 2024." },
+    { topic: 'bestproject', keywords: ['best project', 'favorite project', 'favourite project', 'proud', 'biggest'],
+      answer: "Probably the Healthcare Analytics Suite at Ducont — it covers glucose, HbA1c, and patient engagement, with Row-Level Security and paginated reports for clinical reporting. High-impact, high-responsibility work." },
+    { topic: 'dashboard', keywords: ['dashboard', 'reports', 'reporting'],
+      answer: "Dashboards are my bread and butter — 15+ production dashboards across healthcare, digital marketing, and app analytics. My focus is making the right number easy to find, not cramming every chart onto one screen." },
+    { topic: 'stack', keywords: ['stack', 'tools', 'tech', 'technology'],
+      answer: "Power BI (primary), DAX, MySQL, Azure, SharePoint, Datorama, Power Automate, Excel, M / Power Query. The Stack section above has the full breakdown." },
+    { topic: 'availability', keywords: ['available', 'availability', 'hire', 'freelance', 'consulting', 'open to work', 'opportunity'],
+      answer: "Yes — I'm currently available for new projects in 2026, particularly Power BI builds, dashboard migrations, and DAX optimization work. Email syedabbas98.bi@gmail.com or use the WhatsApp button at the bottom of the page." },
+    { topic: 'contact', keywords: ['contact', 'email', 'reach', 'get in touch'],
+      answer: "Easiest options: email syedabbas98.bi@gmail.com, or use the LinkedIn and WhatsApp buttons at the bottom of this page. Whichever's quickest for you." },
+    { topic: 'contact', keywords: ['phone', 'whatsapp', 'call', 'number', 'mobile number'],
+      answer: "For quick chats, use the WhatsApp button at the bottom of this page — it'll open a direct conversation. For more formal inquiries, email syedabbas98.bi@gmail.com." },
+    { topic: 'linkedin', keywords: ['linkedin'],
+      answer: "LinkedIn: linkedin.com/in/syed-abbas-7013ba227 — there's a button at the bottom of this page that takes you straight there." },
+    { topic: 'location', keywords: ['location', 'based', 'where', 'dubai', 'uae', 'emirates'],
+      answer: "Based in Dubai, United Arab Emirates. Open to remote work globally and on-site projects across the UAE." },
+    { topic: 'remote', keywords: ['remote', 'timezone', 'time zone'],
+      answer: "I'm in Dubai (GMT+4). Comfortable working remotely across UAE, Middle East, Europe, and overlap hours with North America." },
+    { topic: 'rate', keywords: ['rate', 'cost', 'price', 'pricing', 'charge', 'budget'],
+      answer: "Rates depend on scope — quick dashboard builds, ongoing engagements, or one-off DAX/architecture reviews are all priced differently. Email syedabbas98.bi@gmail.com with what you need and I'll put together a proposal." },
+    { topic: 'education', keywords: ['education', 'college', 'university', 'degree', 'study'],
+      answer: "Bachelor of Science in Mathematics from Loyola College (2015–2018). The math background helps a lot with statistical thinking around BI work." },
+    { topic: 'demo', keywords: ['demo', 'ask my data', 'live demo', 'this portfolio'],
+      answer: "The 'Ask My Data' section above is a working mini-BI tool I built into this site — pick a question and it generates SQL, renders a chart, and writes an insight, all in real time. A small live demo of what I do day-to-day." },
+    { topic: 'industry', keywords: ['industry', 'industries', 'domain', 'verticals', 'clients'],
+      answer: "Three main verticals: healthcare analytics (Ducont), digital marketing (Dentsu), and mobile/app analytics. The Power BI tooling stays consistent — the business questions change." },
+    { topic: 'sharepoint', keywords: ['sharepoint'],
+      answer: "Yes — I use SharePoint regularly as a data source and for hosting paginated reports and operational documentation alongside Power BI workspaces." },
+    { topic: 'greeting', keywords: ['hello', 'hi ', 'hey', 'yo', 'sup', 'greetings', 'salam', 'salaam'],
+      answer: "Hey! Ask me anything about Syed Abbas's Power BI work, projects, certifications, or availability." },
+    { topic: 'thanks', keywords: ['thank', 'thanks', 'cheers'],
+      answer: "You're welcome! Anything else you'd like to know?" },
+    { topic: 'name', keywords: ['name', 'who are you', 'who am i talking to'],
+      answer: "I'm Syed Abbas's portfolio assistant — a quick way to explore his Power BI work without scrolling through everything." }
+  ];
+
+  // Each topic = a chip the user can tap. label shown on chip, q sent as message.
+  const TOPICS = {
+    powerbi:        { label: "Power BI experience",  q: "What's your Power BI experience?" },
+    dax:            { label: "DAX skills",           q: "Tell me about your DAX skills" },
+    sql:            { label: "SQL background",       q: "What's your SQL background?" },
+    etl:            { label: "ETL & automation",     q: "Have you built ETL pipelines?" },
+    healthcare:     { label: "Healthcare work",      q: "Tell me about your healthcare projects" },
+    marketing:      { label: "Marketing dashboards", q: "Tell me about your marketing dashboards" },
+    ducont:         { label: "Current role",         q: "What's your current job?" },
+    dentsu:         { label: "Dentsu years",         q: "What did you do at Dentsu?" },
+    iqa:            { label: "IQA project",          q: "What was the IQA dashboard about?" },
+    mobile:         { label: "App analytics",        q: "Have you worked with mobile app data?" },
+    activity:       { label: "User engagement",      q: "Tell me about the user activity work" },
+    rls:            { label: "Row-Level Security",   q: "Do you implement RLS?" },
+    paginated:      { label: "Paginated reports",    q: "Do you build paginated reports?" },
+    modeling:       { label: "Data modeling",        q: "What's your data modeling approach?" },
+    azure:          { label: "Azure experience",     q: "Do you work with Azure?" },
+    certifications: { label: "Certifications",       q: "What certifications do you have?" },
+    experience:     { label: "Years of experience",  q: "How many years of experience?" },
+    bestproject:    { label: "Best project",         q: "What's your best project?" },
+    dashboard:      { label: "Dashboards shipped",   q: "How many dashboards have you shipped?" },
+    stack:          { label: "Full tech stack",      q: "What's your full tech stack?" },
+    availability:   { label: "Available to hire?",   q: "Are you available for hire?" },
+    contact:        { label: "Contact info",         q: "How do I contact you?" },
+    linkedin:       { label: "LinkedIn",             q: "What's your LinkedIn?" },
+    location:       { label: "Location",             q: "Where are you based?" },
+    remote:         { label: "Remote work",          q: "Do you work remotely?" },
+    rate:           { label: "Rates",                q: "What are your rates?" },
+    education:      { label: "Education",            q: "What's your educational background?" },
+    demo:           { label: "About this demo",      q: "What is this live demo?" },
+    industry:       { label: "Industries served",    q: "What industries have you served?" },
+    sharepoint:     { label: "SharePoint",           q: "Do you use SharePoint?" }
+  };
+
+  // After answering on topic X, suggest these related follow-ups.
+  // Designed to mimic a recruiter's natural curiosity flow.
+  const FOLLOWUPS_MAP = {
+    powerbi:        ['dax', 'bestproject', 'certifications'],
+    dax:            ['powerbi', 'marketing', 'modeling'],
+    sql:            ['etl', 'modeling', 'azure'],
+    etl:            ['mobile', 'sql', 'iqa'],
+    healthcare:     ['ducont', 'rls', 'paginated'],
+    marketing:      ['dentsu', 'dax', 'iqa'],
+    ducont:         ['healthcare', 'activity', 'mobile'],
+    dentsu:         ['marketing', 'iqa', 'experience'],
+    iqa:            ['etl', 'dentsu', 'paginated'],
+    mobile:         ['etl', 'activity', 'ducont'],
+    activity:       ['healthcare', 'mobile', 'ducont'],
+    rls:            ['healthcare', 'paginated', 'powerbi'],
+    paginated:      ['powerbi', 'healthcare', 'iqa'],
+    modeling:       ['dax', 'powerbi', 'sql'],
+    azure:          ['certifications', 'sql', 'etl'],
+    certifications: ['experience', 'education', 'availability'],
+    experience:     ['ducont', 'bestproject', 'certifications'],
+    bestproject:    ['healthcare', 'marketing', 'mobile'],
+    dashboard:      ['bestproject', 'powerbi', 'rls'],
+    stack:          ['powerbi', 'certifications', 'experience'],
+    availability:   ['contact', 'rate', 'location'],
+    contact:        ['availability', 'linkedin', 'location'],
+    linkedin:       ['contact', 'availability'],
+    location:       ['remote', 'availability', 'contact'],
+    remote:         ['location', 'availability', 'contact'],
+    rate:           ['availability', 'contact'],
+    education:      ['certifications', 'experience'],
+    demo:           ['stack', 'powerbi', 'bestproject'],
+    industry:       ['healthcare', 'marketing', 'mobile'],
+    sharepoint:     ['etl', 'iqa', 'powerbi'],
+    greeting:       ['powerbi', 'bestproject', 'availability'],
+    thanks:         ['availability', 'contact', 'linkedin'],
+    name:           ['powerbi', 'bestproject', 'experience'],
+    fallback:       ['powerbi', 'bestproject', 'availability', 'contact']
+  };
+
+  const FALLBACK = "Not sure about that one — but I can tell you about Syed's Power BI experience, his healthcare or marketing projects, his certifications (PL-300 / DP-900), or how to contact him. Or email him directly at syedabbas98.bi@gmail.com.";
+
+  function findAnswer(question) {
+    const q = ' ' + question.toLowerCase() + ' ';
+    let best = null;
+    let bestScore = 0;
+    for (const entry of KNOWLEDGE) {
+      let score = 0;
+      for (const kw of entry.keywords) {
+        if (q.includes(kw.toLowerCase())) score += kw.length;
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        best = entry;
+      }
+    }
+    return best ? { answer: best.answer, topic: best.topic } : { answer: FALLBACK, topic: null };
+  }
+
+  let isOpen = false;
+  let isSending = false;
+  const askedTopics = new Set();
+
+  function toggleChat(open) {
+    isOpen = open === undefined ? !isOpen : open;
+    chatWindow.classList.toggle('open', isOpen);
+    if (isOpen) setTimeout(() => chatInput.focus(), 300);
+  }
+
+  trigger.addEventListener('click', () => toggleChat());
+  chatClose.addEventListener('click', () => toggleChat(false));
+
+  function addMessage(role, text) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    div.textContent = text;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'chat-typing';
+    div.id = 'typing';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function hideTyping() {
+    const t = document.getElementById('typing');
+    if (t) t.remove();
+  }
+
+  function clearFollowups() {
+    document.querySelectorAll('.chat-followups').forEach(el => el.remove());
+  }
+
+  function addFollowups(topic) {
+    const candidateTopics = FOLLOWUPS_MAP[topic] || FOLLOWUPS_MAP.fallback;
+    // Filter out topics already asked, and any that don't exist in TOPICS
+    let available = candidateTopics.filter(t => !askedTopics.has(t) && TOPICS[t]);
+
+    // If everything related has been asked, fall back to the universal pool
+    if (available.length === 0) {
+      available = FOLLOWUPS_MAP.fallback.filter(t => !askedTopics.has(t) && TOPICS[t]);
+    }
+
+    // If literally everything's been asked, end gracefully with a contact nudge
+    if (available.length === 0) {
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-followups';
+      wrap.innerHTML =
+        '<div class="chat-followups-label">Ready to chat?</div>' +
+        '<div class="chat-followups-chips">' +
+          '<button class="chat-followup-chip" data-final="email">Email Syed</button>' +
+          '<button class="chat-followup-chip" data-final="linkedin">Open LinkedIn</button>' +
+        '</div>';
+      chatMessages.appendChild(wrap);
+      wrap.querySelector('[data-final="email"]').addEventListener('click', () => {
+        window.location.href = 'mailto:syedabbas98.bi@gmail.com';
+      });
+      wrap.querySelector('[data-final="linkedin"]').addEventListener('click', () => {
+        window.open('https://www.linkedin.com/in/syed-abbas-7013ba227/', '_blank');
+      });
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return;
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-followups';
+
+    const label = document.createElement('div');
+    label.className = 'chat-followups-label';
+    label.textContent = 'You might also ask';
+    wrap.appendChild(label);
+
+    const chipsRow = document.createElement('div');
+    chipsRow.className = 'chat-followups-chips';
+
+    available.slice(0, 3).forEach(t => {
+      const chip = document.createElement('button');
+      chip.className = 'chat-followup-chip';
+      chip.textContent = TOPICS[t].label;
+      chip.addEventListener('click', () => sendMessage(TOPICS[t].q));
+      chipsRow.appendChild(chip);
+    });
+
+    wrap.appendChild(chipsRow);
+    chatMessages.appendChild(wrap);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function sendMessage(text) {
+    if (!text.trim() || isSending) return;
+    isSending = true;
+    chatSend.disabled = true;
+    suggestions.style.display = 'none';
+    clearFollowups();
+
+    addMessage('user', text);
+    chatInput.value = '';
+    showTyping();
+
+    const delay = 500 + Math.random() * 600;
+    setTimeout(() => {
+      hideTyping();
+      const result = findAnswer(text);
+      addMessage('bot', result.answer);
+      if (result.topic) askedTopics.add(result.topic);
+      addFollowups(result.topic || 'fallback');
+      isSending = false;
+      chatSend.disabled = false;
+      chatInput.focus();
+    }, delay);
+  }
+
+  chatSend.addEventListener('click', () => sendMessage(chatInput.value));
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendMessage(chatInput.value);
+  });
+  document.querySelectorAll('.chat-suggestion').forEach(btn => {
+    btn.addEventListener('click', () => sendMessage(btn.dataset.q));
+  });
+
+  /* ========================================================
+     LIVE BI DEMO - Client-side aggregation, no server needed
+     ======================================================== */
+
+  let _seed = 42;
+  function srand() {
+    _seed = (_seed * 1103515245 + 12345) & 0x7fffffff;
+    return _seed / 0x7fffffff;
+  }
+
+  const AGE_GROUPS = ["18-29", "30-44", "45-59", "60+"];
+  const AGE_BASELINES = {
+    "18-29": { steps: 9500, glucose: 88, sleep: 7.3, cal_base: 1700 },
+    "30-44": { steps: 8200, glucose: 94, sleep: 7.0, cal_base: 1750 },
+    "45-59": { steps: 6800, glucose: 104, sleep: 6.7, cal_base: 1800 },
+    "60+":   { steps: 5400, glucose: 116, sleep: 6.5, cal_base: 1750 }
+  };
+
+  function generateDataset() {
+    const data = [];
+    // 30 users × 5 days each = 150 rows
+    for (let userId = 1; userId <= 30; userId++) {
+      const ageGroup = AGE_GROUPS[Math.floor(srand() * AGE_GROUPS.length)];
+      const baseline = AGE_BASELINES[ageGroup];
+
+      for (let d = 0; d < 5; d++) {
+        // Random day in Q1 2026 (Jan-Mar)
+        const month = Math.floor(srand() * 3) + 1;
+        const day = Math.floor(srand() * 28) + 1;
+        const date = '2026-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+
+        // Realistic variation around age-adjusted baselines
+        const steps = Math.max(1500, Math.round(baseline.steps * (0.65 + srand() * 0.7)));
+        const calories = Math.max(1200, Math.round(baseline.cal_base + steps * 0.07 + srand() * 250));
+        const sleep_hrs = Math.max(3.5, Math.min(10, Math.round((baseline.sleep + (srand() - 0.5) * 3) * 10) / 10));
+        const glucose = Math.max(72, Math.min(195, Math.round(baseline.glucose + (srand() - 0.45) * 55)));
+
+        data.push({
+          date: date,
+          user_id: 'U' + String(userId).padStart(3, '0'),
+          age_group: ageGroup,
+          steps: steps,
+          calories: calories,
+          sleep_hrs: sleep_hrs,
+          glucose: glucose
+        });
+      }
+    }
+
+    data.sort((a, b) => a.date.localeCompare(b.date));
+    return data;
+  }
+
+  const DATASET = generateDataset();
+
+  (function populateTable() {
+    const table = document.getElementById('dataTable');
+    const cols = ['date', 'user_id', 'age_group', 'steps', 'calories', 'sleep_hrs', 'glucose'];
+    let html = '<thead><tr>';
+    cols.forEach(c => html += '<th>' + c + '</th>');
+    html += '</tr></thead><tbody>';
+    DATASET.slice(0, 40).forEach(row => {
+      html += '<tr>';
+      cols.forEach(c => {
+        const v = row[c];
+        let display;
+        if (c === 'steps' || c === 'calories') display = v.toLocaleString();
+        else if (c === 'sleep_hrs') display = v.toFixed(1) + 'h';
+        else if (c === 'glucose') display = v + ' mg/dL';
+        else display = v;
+        html += '<td>' + display + '</td>';
+      });
+      html += '</tr>';
+    });
+    html += '</tbody>';
+    table.innerHTML = html;
+  })();
+
+  const QUERIES = {
+    age_steps: function() {
+      const agg = {}, counts = {};
+      DATASET.forEach(r => {
+        agg[r.age_group] = (agg[r.age_group] || 0) + r.steps;
+        counts[r.age_group] = (counts[r.age_group] || 0) + 1;
+      });
+      const labels = AGE_GROUPS.filter(a => agg[a]);
+      const values = labels.map(a => Math.round(agg[a] / counts[a]));
+      const topIdx = values.indexOf(Math.max.apply(null, values));
+      const drop = Math.round((values[0] - values[values.length - 1]) / values[0] * 100);
+      return {
+        questionText: "Average daily steps by age group",
+        insight: "The " + labels[topIdx] + " cohort is most active with an average of " + values[topIdx].toLocaleString() + " daily steps. Activity declines with age — roughly " + drop + "% lower in the oldest group vs the youngest, suggesting room for targeted engagement campaigns.",
+        chartType: "bar",
+        title: "Avg Daily Steps by Age Group",
+        labels: labels,
+        values: values,
+        sql: "SELECT\n  age_group,\n  ROUND(AVG(steps), 0) AS avg_daily_steps\nFROM user_biometrics\nGROUP BY age_group\nORDER BY age_group;"
+      };
+    },
+
+    glucose_trend: function() {
+      const agg = {}, counts = {};
+      DATASET.forEach(r => {
+        agg[r.date] = (agg[r.date] || 0) + r.glucose;
+        counts[r.date] = (counts[r.date] || 0) + 1;
+      });
+      const dates = Object.keys(agg).sort();
+      const recent = dates.slice(-30);
+      const values = recent.map(d => Math.round(agg[d] / counts[d]));
+      const peak = values.indexOf(Math.max.apply(null, values));
+      const trough = values.indexOf(Math.min.apply(null, values));
+      const overall = Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+      return {
+        questionText: "Daily average glucose readings (Q1 2026)",
+        insight: "Average glucose hovers around " + overall + " mg/dL across the period. Peak was " + values[peak] + " mg/dL on " + recent[peak] + ", with a low of " + values[trough] + " mg/dL on " + recent[trough] + ". Trend stays within an actionable monitoring band.",
+        chartType: "line",
+        title: "Avg Daily Glucose (mg/dL)",
+        labels: recent.map(d => d.slice(5)),
+        values: values,
+        sql: "SELECT\n  date,\n  ROUND(AVG(glucose), 0) AS avg_glucose_mgdl\nFROM user_biometrics\nWHERE date BETWEEN '2026-01-01' AND '2026-03-31'\nGROUP BY date\nORDER BY date;"
+      };
+    },
+
+    glucose_ranges: function() {
+      let normal = 0, elevated = 0, high = 0;
+      DATASET.forEach(r => {
+        if (r.glucose < 100) normal++;
+        else if (r.glucose < 126) elevated++;
+        else high++;
+      });
+      const total = normal + elevated + high;
+      const pctNormal = Math.round(normal / total * 100);
+      const pctElev = Math.round(elevated / total * 100);
+      const pctHigh = Math.round(high / total * 100);
+      const followup = pctHigh + pctElev > 50
+        ? "The combined elevated/high share warrants follow-up screening for at-risk users."
+        : "Most readings sit within the normal clinical range, with a smaller elevated cohort to monitor.";
+      return {
+        questionText: "Glucose readings by clinical range",
+        insight: "Of " + total + " readings: " + pctNormal + "% Normal (<100), " + pctElev + "% Elevated (100-125), and " + pctHigh + "% High (≥126 mg/dL). " + followup,
+        chartType: "doughnut",
+        title: "Glucose Readings by Clinical Range",
+        labels: ["Normal (<100)", "Elevated (100-125)", "High (≥126)"],
+        values: [normal, elevated, high],
+        sql: "SELECT\n  CASE\n    WHEN glucose < 100 THEN 'Normal'\n    WHEN glucose < 126 THEN 'Elevated'\n    ELSE 'High'\n  END AS glucose_range,\n  COUNT(*) AS reading_count\nFROM user_biometrics\nGROUP BY glucose_range;"
+      };
+    },
+
+    top_users: function() {
+      const agg = {};
+      DATASET.forEach(r => { agg[r.user_id] = (agg[r.user_id] || 0) + r.steps; });
+      const sorted = Object.entries(agg).sort((a, b) => b[1] - a[1]).slice(0, 5);
+      const lead = Math.round((sorted[0][1] / sorted[4][1] - 1) * 100);
+      return {
+        questionText: "Top 5 users by total steps logged",
+        insight: sorted[0][0] + " is the most active user with " + sorted[0][1].toLocaleString() + " total steps over the period — about " + lead + "% more than the 5th-ranked user (" + sorted[4][0] + ").",
+        chartType: "bar",
+        title: "Top 5 Users by Total Steps",
+        labels: sorted.map(x => x[0]),
+        values: sorted.map(x => x[1]),
+        sql: "SELECT\n  user_id,\n  SUM(steps) AS total_steps\nFROM user_biometrics\nGROUP BY user_id\nORDER BY total_steps DESC\nLIMIT 5;"
+      };
+    },
+
+    sleep_age: function() {
+      const agg = {}, counts = {};
+      DATASET.forEach(r => {
+        agg[r.age_group] = (agg[r.age_group] || 0) + r.sleep_hrs;
+        counts[r.age_group] = (counts[r.age_group] || 0) + 1;
+      });
+      const labels = AGE_GROUPS.filter(a => agg[a]);
+      const values = labels.map(a => Math.round(agg[a] / counts[a] * 10) / 10);
+      const lowest = Math.min.apply(null, values);
+      const highest = Math.max.apply(null, values);
+      return {
+        questionText: "Average sleep hours by age group",
+        insight: "Sleep averages range from " + lowest + " to " + highest + " hours across cohorts. Most groups fall just below the recommended 7-8 hours — a clear opportunity for sleep-coaching nudges within the app.",
+        chartType: "bar",
+        title: "Avg Sleep Hours by Age Group",
+        labels: labels,
+        values: values,
+        sql: "SELECT\n  age_group,\n  ROUND(AVG(sleep_hrs), 1) AS avg_sleep_hours\nFROM user_biometrics\nGROUP BY age_group\nORDER BY age_group;"
+      };
+    }
+  };
+
+  let chartInstance = null;
+  let lastType = 'age_steps';
+
+  function runQuery(type) {
+    const submit = document.getElementById('demoSubmit');
+    const input = document.getElementById('demoInput');
+    const sqlOut = document.getElementById('sqlOutput');
+    const resultContent = document.getElementById('resultContent');
+    const chartStatus = document.getElementById('chartStatus');
+
+    const handler = QUERIES[type];
+    if (!handler) return;
+
+    lastType = type;
+
+    document.querySelectorAll('.demo-chip').forEach(c => c.classList.remove('active'));
+    const activeChip = document.querySelector('.demo-chip[data-type="' + type + '"]');
+    if (activeChip) activeChip.classList.add('active');
+
+    submit.disabled = true;
+    submit.textContent = '...';
+    chartStatus.style.display = 'none';
+
+    const result = handler();
+    input.value = result.questionText;
+
+    resultContent.innerHTML =
+      '<div class="result-loading">' +
+        '<div class="result-loading-bars">' +
+          '<span></span><span></span><span></span><span></span><span></span>' +
+        '</div>' +
+        '<div>Analyzing 150 rows...</div>' +
+      '</div>';
+    sqlOut.textContent = '-- Generating query...';
+
+    setTimeout(() => {
+      sqlOut.textContent = result.sql;
+
+      resultContent.innerHTML =
+        '<div class="result-insight">' +
+          '<span class="result-insight-label">Insight</span>' +
+          result.insight +
+        '</div>' +
+        '<div class="result-chart-wrap">' +
+          '<canvas id="resultChart"></canvas>' +
+        '</div>';
+
+      if (chartInstance) chartInstance.destroy();
+
+      const ctx = document.getElementById('resultChart').getContext('2d');
+      const lime = '#D4FF3A';
+      const palette = ['#D4FF3A', '#F5A623', '#E8B4A0', '#A09A8B', '#6B6659', '#EDE8DB'];
+
+      chartInstance = new Chart(ctx, {
+        type: result.chartType,
+        data: {
+          labels: result.labels,
+          datasets: [{
+            label: result.title,
+            data: result.values,
+            backgroundColor: result.chartType === 'doughnut'
+              ? palette
+              : (result.chartType === 'line' ? 'rgba(212, 255, 58, 0.15)' : lime),
+            borderColor: lime,
+            borderWidth: result.chartType === 'line' ? 2.5 : 0,
+            tension: 0.35,
+            fill: result.chartType === 'line',
+            pointBackgroundColor: lime,
+            pointRadius: result.chartType === 'line' ? 4 : 0,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: result.chartType === 'doughnut',
+              position: 'right',
+              labels: {
+                color: '#A09A8B',
+                font: { family: 'JetBrains Mono', size: 11 },
+                padding: 12,
+                boxWidth: 12
+              }
+            },
+            title: {
+              display: true,
+              text: result.title,
+              color: '#EDE8DB',
+              font: { family: 'Instrument Serif', size: 18, weight: 'normal' },
+              padding: { bottom: 16 }
+            },
+            tooltip: {
+              backgroundColor: '#0C0C0C',
+              borderColor: '#D4FF3A',
+              borderWidth: 1,
+              titleColor: '#D4FF3A',
+              bodyColor: '#EDE8DB',
+              titleFont: { family: 'JetBrains Mono', size: 11 },
+              bodyFont: { family: 'JetBrains Mono', size: 12 },
+              padding: 10
+            }
+          },
+          scales: result.chartType === 'doughnut' ? {} : {
+            x: {
+              ticks: { color: '#A09A8B', font: { family: 'JetBrains Mono', size: 10 } },
+              grid: { color: '#242422', drawTicks: false }
+            },
+            y: {
+              ticks: {
+                color: '#A09A8B',
+                font: { family: 'JetBrains Mono', size: 10 },
+                callback: v => v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v
+              },
+              grid: { color: '#242422', drawTicks: false }
+            }
+          }
+        }
+      });
+
+      chartStatus.style.display = 'flex';
+      submit.disabled = false;
+      submit.textContent = 'Run →';
+    }, 600);
+  }
+
+  document.querySelectorAll('.demo-chip').forEach(chip => {
+    chip.addEventListener('click', () => runQuery(chip.dataset.type));
+  });
+
+  document.getElementById('demoSubmit').addEventListener('click', () => runQuery(lastType));
+</script>
+
+</body>
+</html>
